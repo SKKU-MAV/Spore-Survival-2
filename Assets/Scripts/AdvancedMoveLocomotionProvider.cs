@@ -7,24 +7,26 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class AdvancedMoveLocomotionProvider : LocomotionProvider
 {
     [SerializeField] private bool enable = true;
-    [SerializeField, Range(0, 0.1f)] private float amplitude = 0.00125f;
+    [SerializeField, Range(0, 0.1f)] private float amplitude = 0.015f;
     [SerializeField, Range(0, 30)] private float frequency = 10.0f;
-    [SerializeField] private float running_faster_ratio = 1.25f;
+    [SerializeField] private float running_faster_ratio = 1.5f;
+
 
     [SerializeField] private Transform cam = null;
     [SerializeField] private Transform camHolder = null;
 
+
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private InputActionProperty inputAction;
-    private ContinuousMoveProviderBase moveProvider;
-    
+    [SerializeField] private InputActionProperty inputActionProperty;
+
+
     private float toggleSpeed = 0.5f;
     private Vector3 startPos;
+    private Vector3 walkSpeed = Vector3.zero;
 
     void Start()
     {
         startPos = cam.localPosition;
-        moveProvider = GetComponent<ContinuousMoveProviderBase>();
     }
 
     private void PlayMotion(Vector3 motion)
@@ -32,29 +34,30 @@ public class AdvancedMoveLocomotionProvider : LocomotionProvider
         cam.localPosition += motion;
     }
 
-    private Vector3 FootStepMotion()
+    private Vector3 FootStepMotion(float ratio)
     {
         Vector3 pos = Vector3.zero;
-        pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
-        pos.y += Mathf.Sin(Time.time * frequency ) * amplitude ;
+        pos.x += Mathf.Cos(Time.time * frequency / 2 * ratio) * amplitude * 2 * ratio;
+        pos.y += Mathf.Sin(Time.time * frequency * ratio) * amplitude * ratio;
 
         return pos;
     }
 
-    private void CheckMotion()
+    private void CheckMotion(float ratio = 1)
     {
+
         float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
 
         if (speed < toggleSpeed) return;
         if (characterController.isGrounded) return;
 
-        PlayMotion(FootStepMotion());
+        PlayMotion(FootStepMotion(ratio));
     }
 
     private void ResetPosition()
     {
         if (cam.localPosition == startPos) return;
-        cam.localPosition = Vector3.Lerp(cam.localPosition, startPos, 1 * Time.deltaTime);
+        cam.localPosition = Vector3.Lerp(cam.localPosition, startPos, 5 * Time.deltaTime);
     }
 
     private Vector3 FocusTarget()
@@ -67,23 +70,27 @@ public class AdvancedMoveLocomotionProvider : LocomotionProvider
     void Update()
     {
         if (!enable) return;
+        walkSpeed = characterController.velocity;
 
-        float speed = moveProvider.moveSpeed;
-
-        if (inputAction.action.IsPressed())
+        if (inputActionProperty.action.IsPressed())
         {
-            Debug.Log("Running");
-            moveProvider.moveSpeed = speed  * running_faster_ratio;
-            CheckMotion();
+            characterController.Move(walkSpeed * Time.deltaTime * running_faster_ratio);
+            CheckMotion(running_faster_ratio);
         }
+
         else
         {
-            moveProvider.moveSpeed = speed;
-            Debug.Log("Walking");
-            Debug.Log(speed);
+            characterController.Move(walkSpeed * Time.deltaTime);
             CheckMotion();
         }
+
+        CheckMotion();
+
+        
+
         ResetPosition();
         cam.LookAt(FocusTarget());
+
+        
     }
 }
