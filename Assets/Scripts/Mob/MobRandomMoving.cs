@@ -9,8 +9,6 @@ public class MobRandomMoving : MonoBehaviour
     private NavMeshAgent agent;
 
     [SerializeField]
-    private Transform floor;
-    [SerializeField]
     private Animator animator;
 
     private float move_x_pos;
@@ -40,17 +38,17 @@ public class MobRandomMoving : MonoBehaviour
         originPosition = planeObject.transform.position;
     }
     
-    private void LateUpdate()
+    private void Update()
     {
-            //목적지에 도착	
-            if ((transform.position - destination).magnitude < 0.1f)
+        //목적지에 도착	
+        if ((transform.position - destination).magnitude < 1f)
             {
                 timer += Time.deltaTime;
 
                 //추가
                 float range_X = rangeCollider.bounds.size.x;
                 float range_Z = rangeCollider.bounds.size.z;
-
+                Debug.Log("Arrived");
                 animator.SetBool("IsWalking", false);
                 move_x_pos = Random.Range( (range_X / 2) * -1, range_X / 2);
                 move_z_pos = Random.Range((range_Z / 2) * -1, range_Z / 2);
@@ -65,7 +63,10 @@ public class MobRandomMoving : MonoBehaviour
                     animator.SetBool("IsWalking", true);
                     timer = 0;
                 }
+               
             }
+
+
     }
 
 

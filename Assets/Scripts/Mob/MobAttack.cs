@@ -18,7 +18,7 @@ public class MobAttack : MonoBehaviour
 
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
-    
+    bool isIdlePlaying = false;
 
 
     private void Awake()
@@ -30,17 +30,23 @@ public class MobAttack : MonoBehaviour
         
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         distanceToTarget = Vector3.Distance(transform.position, target.position);
 
         if (isProvoked)
         {
+            isIdlePlaying = false;
             EngageTarget();
         }
         else if(chaseRange >= distanceToTarget)
         {
             isProvoked = true;
+        }
+        if(isProvoked && chaseRange < distanceToTarget)
+        {
+            isProvoked = false;
+            GetIdle();
         }
     }
 
@@ -52,8 +58,9 @@ public class MobAttack : MonoBehaviour
     private void EngageTarget()
     {
         FaceTarget();
+       
 
-        if(distanceToTarget >= agent.stoppingDistance)
+        if (distanceToTarget >= agent.stoppingDistance)
         {
             ChaseTarget();       
         }
@@ -87,4 +94,19 @@ public class MobAttack : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
 
+    private void GetIdle()
+    {
+        Debug.Log("GetIdle");
+        agent.SetDestination(transform.position);
+        if (!isIdlePlaying) {
+
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isRunning", false);
+            isIdlePlaying = true;
+        }
+     }
+    
+
 }
+
