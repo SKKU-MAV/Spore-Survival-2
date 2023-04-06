@@ -40,12 +40,12 @@ public class AdvancedMoveLocomotionProvider : LocomotionProvider
         pos.x += Mathf.Cos(Time.time * frequency / 2 * ratio) * amplitude * 2 * ratio;
         pos.y += Mathf.Sin(Time.time * frequency * ratio) * amplitude * ratio;
 
+
         return pos;
     }
 
     private void CheckMotion(float ratio = 1)
     {
-
         float speed = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).magnitude;
 
         if (speed < toggleSpeed) return;
@@ -67,7 +67,7 @@ public class AdvancedMoveLocomotionProvider : LocomotionProvider
         return pos;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!enable) return;
         walkSpeed = characterController.velocity;
