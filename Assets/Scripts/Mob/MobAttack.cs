@@ -19,6 +19,7 @@ public class MobAttack : MonoBehaviour
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
     bool isIdlePlaying = false;
+    Vector3 originPos;
 
 
     private void Awake()
@@ -41,6 +42,7 @@ public class MobAttack : MonoBehaviour
         }
         else if(chaseRange >= distanceToTarget)
         {
+            originPos = transform.position;
             isProvoked = true;
         }
         if(isProvoked && chaseRange < distanceToTarget)
@@ -96,11 +98,10 @@ public class MobAttack : MonoBehaviour
 
     private void GetIdle()
     {
-        Debug.Log("GetIdle");
-        agent.SetDestination(transform.position);
+        agent.SetDestination(originPos);
         if (!isIdlePlaying) {
 
-            animator.SetBool("isWalking", false);
+            animator.SetBool("isWalking", true);
             animator.SetBool("isAttacking", false);
             animator.SetBool("isRunning", false);
             isIdlePlaying = true;
