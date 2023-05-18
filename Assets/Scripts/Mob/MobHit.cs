@@ -15,8 +15,12 @@ public class MobHit: MonoBehaviour
     [SerializeField]
     private float hp = 100f;
 
+    [SerializeField]
+    private float delayTime = 10f;
+
     bool isHit = false;
     bool isPlayingDest = false;
+    
 
     MobRandomMoving mobRandomMoving;
     NavMeshAgent agent;
@@ -36,13 +40,11 @@ public class MobHit: MonoBehaviour
 
             if (!isHit)
             {
-                if(hp > 0)
+                if (hp > 0)
                 {
                     anim.Play("GetHit");
                     hp -= 20;
                 }
-                
-
             }
 
 
@@ -72,7 +74,6 @@ public class MobHit: MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         isHit = false;
-
     }
 
     private void DestroyMob()
@@ -80,7 +81,6 @@ public class MobHit: MonoBehaviour
         Destroy(gameObject);
         Instantiate(dropitem, transform.position, transform.rotation);
     }
-
   
 
     

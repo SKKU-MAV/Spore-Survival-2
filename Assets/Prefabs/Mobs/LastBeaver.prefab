@@ -863,7 +863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6970229153194676319}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddleFinger1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1785,7 +1785,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3372377174748978175}
-  m_Layer: 0
+  - component: {fileID: 2926639379047354810}
+  m_Layer: 6
   m_Name: Wrist_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1808,6 +1809,20 @@ Transform:
   m_Father: {fileID: 3243208358417273232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2926639379047354810
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465632024109223363}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.34332597
+  m_Height: 0.686652
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!1 &7534842547468602174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,7 +1992,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7200147526874862398}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fingers1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2136,7 +2151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8410666016531961645}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddleFinger2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2283,6 +2298,7 @@ MonoBehaviour:
     type: 3}
   dieingTime: 3.5
   hp: 100
+  delayTime: 10
 --- !u!114 &1118700159
 MonoBehaviour:
   m_ObjectHideFlags: 0
