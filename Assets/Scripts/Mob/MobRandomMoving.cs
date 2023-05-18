@@ -41,15 +41,15 @@ public class MobRandomMoving : MonoBehaviour
     private void Update()
     {
         //목적지에 도착	
-        if ((transform.position - destination).magnitude < 1f)
+        if ((transform.position - agent.destination).magnitude < agent.stoppingDistance)
             {
                 timer += Time.deltaTime;
 
                 //추가
                 float range_X = rangeCollider.bounds.size.x;
                 float range_Z = rangeCollider.bounds.size.z;
-                Debug.Log("Arrived");
-                animator.SetBool("IsWalking", false);
+
+                animator.SetBool("isWalking", false);
                 move_x_pos = Random.Range( (range_X / 2) * -1, range_X / 2);
                 move_z_pos = Random.Range((range_Z / 2) * -1, range_Z / 2);
                 Vector3 RandomPostion = new Vector3(move_x_pos, 0, move_z_pos); //랜덤 포지션
@@ -60,7 +60,7 @@ public class MobRandomMoving : MonoBehaviour
                 {
                     destination = originPosition + RandomPostion; //spawner의 원래 위치와 이동할 위치를 더해서 destination 정하기
                     agent.SetDestination(destination);
-                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("isWalking", true);
                     timer = 0;
                 }
                
