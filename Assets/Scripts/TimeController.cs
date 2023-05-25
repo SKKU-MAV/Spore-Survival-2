@@ -8,7 +8,7 @@ public class TimeController : MonoBehaviour
 {
 
     [SerializeField]
-    private float timeMultiplier;
+    public float timeMultiplier;
 
     [SerializeField]
     private float startHour;
