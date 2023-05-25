@@ -82,7 +82,7 @@ public class MobHit: MonoBehaviour
         Instantiate(dropitem, transform.position, transform.rotation);
     }
   
-
+    public float getHP() { return hp; }
     
 
 }
